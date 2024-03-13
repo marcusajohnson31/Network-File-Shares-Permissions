@@ -1,8 +1,8 @@
 <p align="center">
-<img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo"/>
+<img src="https://imgur.com/IEvEHpp.png" alt="Microsoft Active Directory Logo"/>
 </p>
 
-<h1>On-premises Active Directory Deployed in the Cloud (Azure)</h1>
+<h1>Network File Shares & Permissions</h1>
 This tutorial shows how to create and test some security groups within Active Directory I will not be adding how to configure the lab since this is an addition to what you can do using active directory.<br />
 
 
