@@ -46,7 +46,7 @@ On DC-1, on the C:\ drive, create 4 folders: “read-access”, “write-access�
 Folder: “read-access”, Group: “Domain Users”, Permission: “Read”
 Folder: “write-access”,  Group: “Domain Users”, Permissions: “Read/Write”
 Folder: “no-access”, Group: “Domain Admins”, “Permissions: “Read/Write”
-(Skip accounting for now)
+Folder: "accounting" 
 </p>
 <br />
 
@@ -76,8 +76,21 @@ An example of what happens when you try to access a file without permissions.
 <img src="https://imgur.com/IQHDRV7.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Create an “ACCOUNTANTS” Security Group, assign permissions, an test access
+Create an “ACCOUNTANTS” Security Group (you can do this by right clicking your forest-> new -> orgnizational units), assign permissions( choose a user to grant access right click the users name -> properties -> member of -> add -> domain admins -> check names -> apply -> ok, an test access
 Go back to DC-1, in Active Directory, create a security group called “ACCOUNTANTS”
+On the “accounting” folder you created earlier, set the following permissions:
+Folder: “accounting”, Group: “ACCOUNTANTS”, Permissions: “Read/Write”
+</p>
+<br />
+
+
+
+<p>
+<img src="https://imgur.com/5spOFxv.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+On Client-1, as  <someuser>, try to access the accountants folder. It should fail. 
+Log out of Client-1 as  <someuser>
 
 </p>
 <br />
@@ -85,36 +98,12 @@ Go back to DC-1, in Active Directory, create a security group called “ACCOUNTA
 
 
 <p>
-<img src="https://imgur.com/bPdC8JE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://imgur.com/jpUxFAu.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Create a new employee named “Jane Doe” (same password) with the username of “jane_admin”
-Right click on mydomain.com -> new -> user
-</p>
-<br />
-
-
-
-<p>
-<img src="https://imgur.com/4gsVqai.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Add jane_admin to the “Domain Admins” Security Group
-Log out/close the Remote Desktop connection to DC-1 and log back in as “mydomain.com\jane_admin”
-User jane_admin as your admin account from now on
-Right click on jane doe -> properties -> member of -> add -> type in domain admins -> find. Then add her in. 
-</p>
-<br />
-
-
-
-<p>
-<img src="https://imgur.com/Z4UsZMN.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Join Client-1 to your domain (mydomain.com)
-From the Azure Portal, set Client-1’s DNS settings to the DC’s Private IP address
-From the Azure Portal, restart Client-1
+Log out of Client-1 as  <someuser>
+On DC-1, make <someuser> a member of the “ACCOUNTANTS”  Security Group
+Sign back into Client-1 as <someuser> and try to access the “accounting” share in \\DC-1\ - 
 
 </p>
 <br />
@@ -122,97 +111,12 @@ From the Azure Portal, restart Client-1
 
 
 <p>
-<img src="https://imgur.com/24qYJAX.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://imgur.com/V1BFEvN.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Login to Client-1 (Remote Desktop) as the original local admin (labuser) and join it to the domain (computer will restart)
+This is just proof that the access works on the new user account. 
 </p>
 <br />
-
-
-
-<p>
-<img src="https://imgur.com/v6Nws39.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Log into Client-1 as mydomain.com\jane_admin and open system properties
-Click “Remote Desktop”
-
-</p>
-<br />
-
-
-
-<p>
-<img src="https://imgur.com/s5CJtQA.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Allow “domain users” access to remote desktop
-You can now log into Client-1 as a normal, non-administrative user now
-Normally you’d want to do this with Group Policy that allows you to change MANY systems at once 
-
-</p>
-<br />
-
-
-<p>
-<img src="https://imgur.com/vVrhhgd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Create a bunch of additional users and attempt to log into client-1 with one of the users
-Login to DC-1 as jane_admin
-Open PowerShell_ise as an administrator
-Create a new File and paste the contents of the script into it (https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1)
-
-</p>
-<br />
-
-
-
-<p>
-<img src="https://imgur.com/BjNVEcG.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Run the script (hit the play button) and observe the accounts being created
-
-
-
-</p>
-<br />
-
-
-
-<p>
-<img src="https://imgur.com/sFzAiip.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p> Image of what the script is doing while creating accounts
-
-
-
-</p>
-<br />
-
-
-<p>
-<img src="https://imgur.com/J1oHPgE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p> Head to Active Directory Uses and Comptuers, select an account you want to login to and save the username. 
-
-
-
-</p>
-<br />
-
-
-<p>
-<img src="https://imgur.com/IiEmpE5.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p> attempt to log into Client-1 with one of the accounts (take note of the password in the script)
-
-
-</p>
-<br />
-
 
 
 
